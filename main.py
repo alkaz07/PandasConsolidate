@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-cities = ["Гадюкино", "Нью-Васюки", "Мирный"]
+cities = ["Гадюкино", "Нью-Васюки", "Мирный"]   #исходный список названий городов
 dataframes = []
 for city in cities:
     filename = city + '.xlsx'
