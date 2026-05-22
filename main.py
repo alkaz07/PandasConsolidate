@@ -12,6 +12,10 @@ for city in cities:
     except FileNotFoundError:
         print(f'файл с таким именем {filename} не найден в указанном месте')
 
+if len(dataframes) ==0 :
+    print("нет данных")
+    exit(1)
+
 df_all = pd.concat(dataframes, ignore_index=True)
 
 print(df_all)
