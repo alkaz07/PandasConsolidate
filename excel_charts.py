@@ -1,5 +1,7 @@
 from openpyxl import load_workbook
 from openpyxl.chart import BarChart, Reference
+from openpyxl.chart.label import DataLabelList
+from openpyxl.drawing.spreadsheet_drawing import AnchorMarker, TwoCellAnchor
 
 excel_file_name = "test prices.xlsx"
 item_categories= ['xxx', 'yyy', 'zzz']
@@ -29,10 +31,26 @@ for category in item_categories:
     chart.set_categories(chart_cats)
     # Настройки внешнего вида
     chart.title="Percentage for " + category
-    chart.x_axis.title='Price categories'
+    chart.legend=None
+    chart.y_axis.delete = False
+    chart.y_axis.scaling.max=100
+    chart.x_axis.delete = False
 
-    ws.add_chart(chart, "D"+str(row_min))
-    row_min += 14
-    row_max += 14
+    chart.varyColors=False
+    # Размещение и габариты
+    from_marker = AnchorMarker( col=4, row=row_min)
+    to_marker = AnchorMarker(col=10, row=row_max)
+    chart.anchor = TwoCellAnchor(_from=from_marker, to=to_marker)
+
+    # Подписи к данным
+    chart.dataLabels = DataLabelList()
+    chart.dataLabels.showVal = True
+    chart.dataLabels.showSerName = False
+    chart.dataLabels.showCatName = False
+    chart.dataLabels.showLegendKey = False
+
+    ws.add_chart(chart)
+    row_min += 13
+    row_max += 13
 
 wb.save(excel_file_name)
