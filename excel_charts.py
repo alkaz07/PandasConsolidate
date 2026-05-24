@@ -1,3 +1,4 @@
+import openpyxl
 from openpyxl import load_workbook
 from openpyxl.chart import BarChart, Reference
 from openpyxl.chart.label import DataLabelList
@@ -7,9 +8,9 @@ excel_file_name = "test prices.xlsx"
 item_categories= ['xxx', 'yyy', 'zzz']
 price_categories=['A','B', 'C','D','E','F','G','H','I','K']
 
-color_map={'A':'red',
-           'B':'green', 'C':'green','D':'green',
-           'E':'blue', 'F':'blue','G':'blue','H':'blue','I':'blue','K':'blue'}
+color_map={'A':'F00000',
+           'B':'00E000', 'C':'00E000','D':'00E000',
+           'E':'0000E0', 'F':'0000E0','G':'0000E0','H':'0000E0','I':'0000E0','K':'0000E0'}
 
 wb = load_workbook(excel_file_name)
 ws = wb['Charts']
@@ -48,6 +49,13 @@ for category in item_categories:
     chart.dataLabels.showSerName = False
     chart.dataLabels.showCatName = False
     chart.dataLabels.showLegendKey = False
+
+    # Цвета столбиков
+    for i,cat in enumerate(price_categories):
+        pt = openpyxl.chart.marker.DataPoint(idx=i)
+        pt.graphicalProperties.solidFill = color_map[cat]
+        chart.series[0].dPt.append(pt)
+
 
     ws.add_chart(chart)
     row_min += 13
